@@ -57,6 +57,7 @@ svg { width:100%; height:auto; display:block; border-radius:6px; }
   body.act .flow.on { opacity:.95; }
   body.act .flow:not(.on) { opacity:0 !important; }
 }
+.budget { font-size:13.5px; line-height:1.45; border-left:4px solid #BA7517; padding:6px 10px; background:#fff5e8; }
 </style>
 </head>
 <body>
@@ -118,7 +119,7 @@ svg { width:100%; height:auto; display:block; border-radius:6px; }
     <text x="400" y="26" text-anchor="middle" id="airLabel">Air 870 Gt (2019)</text>
     <text x="150" y="232">Plants 450 Gt</text>
     <text x="70" y="330">Soils 1,700 Gt</text>
-    <text x="180" y="455">Fossil reserves 930 Gt (today)</text>
+    <text x="180" y="455">Fossil reserves about 930 Gt</text>
     <text x="590" y="300" fill="#174f86">Surface ocean 900 Gt</text>
     <text x="706" y="400" text-anchor="end" fill="#174f86">Intermediate and deep 37,100 Gt</text>
     <text x="12" y="20" font-size="11">Gt = gigatonnes of carbon (billions of metric tons)</text>
@@ -140,7 +141,8 @@ svg { width:100%; height:auto; display:block; border-radius:6px; }
 
 <div class="panel screen-only" id="panel" aria-live="polite"><h2 id="pTitle">Start anywhere</h2><div id="pBody">Each dot opens one part of the carbon cycle. Try the tree, the fallen log, and the deep ocean, then switch to 2010 to 2019.</div></div>
 
-<p class="legend"><strong>Figure C</strong> Carbon stores and yearly flows for the whole planet, shown in one landscape. Land and ocean trade far more carbon with the air than people add. Each year from 2010 to 2019, people added about 11 gigatonnes (Gt) of carbon, or 11 billion metric tons. Land and ocean took up about 6 Gt, and the air kept about 5 Gt.</p>
+<p class="budget" id="budgetLine" style="display:none"><b>Global Carbon Budget, 2015 to 2024.</b> People added about 11.2 Gt a year (fossil fuels and cement 9.8, land-use change 1.4). The air gained about 5.6 Gt, the ocean took up about 3.2 Gt, and the land sink took up about 2.4 Gt, excluding land-use change.</p>
+<p class="legend"><strong>Figure C</strong> Carbon stores and yearly flows for the whole planet, shown in one landscape. Land and ocean trade far more carbon with the air than people add. From 2015 to 2024, people added about 11 gigatonnes (Gt) of carbon a year, or 11 billion metric tons. About half stayed in the air, and the ocean and land took up the rest.</p>
 <p class="tagline">Environmental Science through Nature’s Genius</p>
 
 <script>
@@ -160,7 +162,7 @@ const DOTS = [
 ];
 const INFO = {
   air:   {A:['Atmosphere','<span class="amt">About 591 Gt</span> of carbon, roughly 280 ppm of carbon dioxide. About 167 Gt flow in each year, and about 167 Gt flow out.'],
-          B:['Atmosphere','<span class="amt">About 870 Gt</span> of carbon, roughly 410 ppm, which is 279 Gt more than in 1750. About 227 Gt flow in each year and about 222 Gt flow out, so the air gains about 5 Gt a year.']},
+          B:['Atmosphere','<span class="amt">About 870 Gt</span> of carbon, roughly 410 ppm, which is 279 Gt more than in 1750. About 227 Gt flow in each year and about 222 Gt flow out, so the air gained about 5 Gt a year then. By 2024 the air held about 898 Gt (422.8 ppm), and from 2015 to 2024 it gained about 5.6 Gt a year.']},
   photo: {A:['Photosynthesis','Land plants take in <span class="amt">about 113 Gt</span> of carbon a year, about one-fifth of the carbon in the air.'],
           B:['Photosynthesis','Land plants take in <span class="amt">about 142 Gt</span> of carbon a year, about one-sixth of the carbon in the air.']},
   veg:   {A:['Vegetation','Plants hold <span class="amt">about 450 Gt</span> of carbon, most of it in wood. A leaf may hold carbon for months, a trunk for centuries.'],
@@ -170,18 +172,18 @@ const INFO = {
   soil:  {A:['Soils','Soils hold <span class="amt">about 1,700 Gt</span> of carbon, more than plants and air combined. Permafrost, permanently frozen ground not shown in this tropical scene, holds a separate 1,200 Gt.'],
           B:['Soils','Soils hold <span class="amt">about 1,700 Gt</span> of carbon, nearly twice the carbon now in the air. Permafrost holds a separate 1,200 Gt, and as it thaws, decomposers can reach some of that carbon.']},
   fossil:{A:['Fossil fuels','Coal formed from buried swamp plants, and oil and natural gas mostly from buried plankton, over millions of years.'],
-          B:['Fossil fuels and cement','From 2010 to 2019, fossil fuels and cement released <span class="amt">about 9.4 Gt</span> of carbon a year. Known fossil-fuel reserves hold about 930 Gt of carbon, and more fossil carbon lies underground beyond those reserves.']},
+          B:['Fossil fuels and cement','From 2010 to 2019, fossil fuels and cement released <span class="amt">about 9.4 Gt</span> of carbon a year. From 2015 to 2024, the yearly average rose to about 9.8 Gt. Known fossil-fuel reserves hold about 930 Gt of carbon, and more fossil carbon lies underground beyond those reserves.']},
   volc:  {A:['Volcanoes','<span class="amt">About 0.1 Gt</span> of carbon a year rises from deep within Earth.'],
           B:['Volcanoes','<span class="amt">About 0.1 Gt</span> of carbon a year, about one-hundredth of what fossil fuels and cement release.']},
   coast: {A:['Rivers, lakes, and rock','Weathering draws <span class="amt">about 0.3 Gt</span> of carbon a year from the air. Rivers and lakes release about 1.5 Gt a year, and rivers carry about 0.8 Gt a year to the sea.'],
           B:['Rivers, lakes, and rock','About the same as before, with weathering taking in <span class="amt">about 0.3 Gt</span> of carbon a year and rivers and lakes releasing about 1.5 Gt. These flows are too slow to offset human additions.']},
   surf:  {A:['Surface ocean','The surface ocean holds <span class="amt">about 900 Gt</span> of carbon. About 54 Gt dissolve in each year, and about 55 Gt escape. Most dissolved carbon is bicarbonate.'],
-          B:['Surface ocean','<span class="amt">About 80 Gt</span> of carbon dissolve in each year, and about 78 Gt escape, a net uptake of about 2 Gt a year. Compared with the exchange around 1750, the ocean takes up about 2.5 Gt more each year.']},
+          B:['Surface ocean','<span class="amt">About 80 Gt</span> of carbon dissolve in each year, and about 78 Gt escape, a net uptake of about 2 Gt a year. Compared with the exchange around 1750, the ocean takes up about 2.5 Gt more each year. A newer budget, using more recent data and methods, puts the net uptake at about 3.2 Gt a year for 2015 to 2024.']},
   deep:  {A:['Intermediate and deep ocean','The intermediate and deep ocean holds <span class="amt">about 37,100 Gt</span> of carbon. Sinking water carries carbon down for several hundred to about 1,000 years.'],
           B:['Intermediate and deep ocean','It holds <span class="amt">about 37,100 Gt</span> of carbon, more than 40 times the air, plus about 173 Gt carried down since 1750.']},
   sed:   {A:['Ocean floor','Sediments hold <span class="amt">about 1,750 Gt</span> of carbon, in organic material and in minerals such as calcium carbonate. About 0.2 Gt a year settles into them, and over long periods some buried material becomes sedimentary rock.'],
           B:['Ocean floor','Burial, <span class="amt">about 0.2 Gt</span> of carbon a year, is far too slow to keep up with human additions.']},
-  luc:   {B:['Land-use change','Clearing forests and changing land released <span class="amt">about 1.6 Gt</span> of carbon a year.']}
+  luc:   {B:['Land-use change','Clearing forests and changing land released <span class="amt">about 1.6 Gt</span> of carbon a year from 2010 to 2019 and about 1.4 Gt a year from 2015 to 2024.']}
 };
 const ACT = new URLSearchParams(location.search).get('mode') === 'activity';
 let scen='A', current=null, all=false;
@@ -220,7 +222,7 @@ function applyAll(){
   document.querySelectorAll('.flow[data-k="luc"]').forEach(f=>{ if(all && scen==='B') f.classList.add('on'); });
   document.querySelectorAll('.flabel').forEach(t=>{ const ok = all && (!t.classList.contains('human')||scen==='B') && (!t.classList.contains('small')||ACT) && t.textContent; t.style.display = ok ? 'inline' : 'none'; });
   document.getElementById('airLabel').textContent = scen==='B' ? 'Air 870 Gt (2019)' : 'Air 591 Gt (around 1750)';
-  document.getElementById('keyLine').textContent = scen==='B' ? 'Arrows show Gt per year, 2010 to 2019 average' : 'Arrows show Gt per year, around 1750';
+  document.getElementById('keyLine').textContent = scen==='B' ? 'Arrows show Gt per year, 2010 to 2019 average (IPCC)' : 'Arrows show Gt per year, around 1750';
 }
 function toggleAll(){
   all=!all;
@@ -241,8 +243,8 @@ function setScenario(s){
   document.getElementById('btnB').setAttribute('aria-pressed',s==='B');
   document.querySelectorAll('.dot.human').forEach(e=>{ e.style.display = s==='B' ? '' : 'none'; });
   const st=document.getElementById('strip'); st.classList.toggle('rising',s==='B');
-  document.getElementById('stripMain').textContent = s==='B' ? 'Carbon in the air is rising, by about 5 Gt a year.' : 'Around 1750, carbon in the air was approximately steady over the long term.';
-  document.getElementById('stripSub').textContent = s==='B' ? 'People added about 11 Gt of carbon each year. Land took up about 3 Gt, and the ocean about 3 Gt.' : 'About 167 Gt of carbon flow in each year, and about 167 Gt flow out.';
+  document.getElementById('stripMain').textContent = s==='B' ? 'Carbon in the air is rising, by about 5.6 Gt a year from 2015 to 2024.' : 'Around 1750, carbon in the air was approximately steady over the long term.';
+  document.getElementById('stripSub').textContent = s==='B' ? 'The Global Carbon Budget for 2015 to 2024 found that people added about 11.2 Gt a year. The ocean took up about 3.2 Gt, and land about 2.4 Gt, not counting land-use change. The arrows show the larger exchanges for 2010 to 2019.' : 'About 167 Gt of carbon flow in each year, and about 167 Gt flow out.';
   if(all) { document.querySelectorAll('.flow').forEach(f=>f.classList.remove('on')); }
   if(current && INFO[current][s]) select(current); else { current=null; document.querySelectorAll('.flow').forEach(f=>f.classList.remove('on')); document.querySelectorAll('.dot').forEach(e=>e.classList.remove('active')); }
   if(all) applyAll();
@@ -260,8 +262,8 @@ if(ACT){
 }
 setScenario('A');
 applyAll();
-window.addEventListener('beforeprint',()=>{ if(!ACT){ setScenario('B'); document.getElementById('printLabels').style.display='inline'; document.getElementById('stockLabels').style.display='inline'; } });
-window.addEventListener('afterprint',()=>{ if(!ACT){ document.getElementById('printLabels').style.display='none'; document.getElementById('stockLabels').style.display='none'; } });
+window.addEventListener('beforeprint',()=>{ if(!ACT){ setScenario('B'); document.getElementById('printLabels').style.display='inline'; document.getElementById('stockLabels').style.display='inline'; document.getElementById('budgetLine').style.display='block'; } });
+window.addEventListener('afterprint',()=>{ if(!ACT){ document.getElementById('printLabels').style.display='none'; document.getElementById('stockLabels').style.display='none'; document.getElementById('budgetLine').style.display='none'; } });
 </script>
 </body>
 </html>
